@@ -8,7 +8,7 @@ import {TimePicker, Form} from 'antd';
 import {initFormData,initDynamicFormData ,updateFormData,updateDynamicFormData} from '../../actions/formAction';
 import {IsNullorUndefined, FormItemLayout, MapStateToProps,getIsCascadeElement} from '../../utility/common';
 import _ from 'lodash';
-
+import {timePickerProType} from '../../utility/propTypes';
 const FormItem = Form.Item;
 
 export class QTimePicker extends React.Component {
@@ -70,14 +70,14 @@ export class QTimePicker extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -93,7 +93,7 @@ export class QTimePicker extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -131,13 +131,13 @@ export class QTimePicker extends React.Component {
         const {getFieldDecorator} = this.props.form;
         const key = this.getDynamicKey();
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}} label={this.state.label}>
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}} label={this.state.label}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules(),
+                    rules: this.Rules,
                     initialValue: this.state.defaultvalue === '' ? null : this.state.defaultvalue
                 })(<TimePicker
                         placeholder={this.state.placeholder}
-                        disabled={this.getDisabled()}
+                        disabled={this.isDisabled}
                         use12Hours={this.state.use12hours}
                         format={IsNullorUndefined(this.state.format) ? 'HH:mm:ss' : this.state.format}
                         onChange={(date, dateString) => this.handleOnChange(date, dateString)}
@@ -147,5 +147,5 @@ export class QTimePicker extends React.Component {
         );
     }
 }
-
+QTimePicker.propTypes = timePickerProType;
 export default connect(MapStateToProps)(QTimePicker);

@@ -11,6 +11,7 @@ describe('Reducer' ,()=>{
         formDictionaryLoaded: false,
         formDefinition: [],
         formIsValid: false,
+        initFormData:{},
         formData: {},
         formDictionary:{},
         isNewForm: false,

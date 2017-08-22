@@ -7,7 +7,7 @@ import {initFormData,initDynamicFormData, updateFormData,updateDynamicFormData, 
 import {Radio, Input, Form}  from 'antd';
 import {FormItemLayout,getIsCascadeElement} from '../../utility/common';
 import _ from 'lodash';
-
+import {radioGroupPropType} from '../../utility/propTypes';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
@@ -94,14 +94,14 @@ export class QRadioGroup extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -117,7 +117,7 @@ export class QRadioGroup extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -221,12 +221,12 @@ export class QRadioGroup extends React.Component {
         });
 
         return (
-            <FormItem {...FormItemLayout()}  style={{display:this.getHidden()}}  label={this.state.label}>
-                {getFieldDecorator(key, {rules: this.getRules(), initialValue: radiovalue})(
+            <FormItem {...FormItemLayout()}  style={{display:this.isHidden}}  label={this.state.label}>
+                {getFieldDecorator(key, {rules: this.Rules, initialValue: radiovalue})(
                     <RadioGroup
                         onChange={this.handleOnChange}
                         style={this.state.style}
-                        disabled={this.getDisabled()}
+                        disabled={this.isDisabled}
                     >
                         {options}
                     </RadioGroup>
@@ -236,5 +236,5 @@ export class QRadioGroup extends React.Component {
         );
     }
 }
-
+QRadioGroup.propTypes = radioGroupPropType;
 export default connect(mapStateToProps)(QRadioGroup);

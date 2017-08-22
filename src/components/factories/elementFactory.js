@@ -64,7 +64,7 @@ export function getDynamicElement(componentDefinition , index, dataPosition) {
     }
 }
 
-export function getElement (componentDefinition , index , value) {
+export function getElement (componentDefinition , index , value, props) {
     const componentType = componentDefinition.type;
     switch (componentType) {
         case 'textfield':
@@ -74,7 +74,7 @@ export function getElement (componentDefinition , index , value) {
         case 'select':
             return <Select key={index} definition={componentDefinition} />;
         case 'button':
-            return <Button key={index} definition={componentDefinition}/>;
+            return <Button key={index} definition={componentDefinition} {...props}/>;
         case 'container':
             return <Container key={index} definition={componentDefinition} value={value}/>;
         case'cascadeSelect':

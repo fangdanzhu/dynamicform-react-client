@@ -10,7 +10,7 @@ import 'moment/locale/zh-cn';
 import _ from 'lodash';
 import {initFormData,initDynamicFormData, updateFormData,updateDynamicFormData} from '../../actions/formAction';
 import {IsNullorUndefined, FormItemLayout, MapStateToProps,getIsCascadeElement} from '../../utility/common';
-
+import {rangePickerPropType} from '../../utility/propTypes';
 const {RangePicker} = DatePicker;
 const FormItem = Form.Item;
 
@@ -79,14 +79,14 @@ export class QRangePicker extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -102,7 +102,7 @@ export class QRangePicker extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -139,20 +139,20 @@ export class QRangePicker extends React.Component {
         let rule;
         if (!_.isUndefined(this.state.defaultvalue.starttime._isAMomentObject)) {
             rule = {
-                rules: this.getRules(),
+                rules: this.Rules,
                 initialValue: [this.state.defaultvalue.starttime, this.state.defaultvalue.endtime]
             };
         } else {
             rule = {
-                rules: this.getRules()
+                rules: this.Rules
             };
         }
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}}  label={this.state.label}>
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}}  label={this.state.label}>
                 {getFieldDecorator(key, rule)(
                     <RangePicker
                         onChange={(date, dateStrings) => this.handleOnChange(date, dateStrings)}
-                        disabled={this.getDisabled()}
+                        disabled={this.isDisabled}
                         showTime={this.state.showtime}
                         format={IsNullorUndefined(this.state.format) ? 'YYYY-MM-DD kk:mm:ss' : this.state.format}
                     />
@@ -161,4 +161,5 @@ export class QRangePicker extends React.Component {
         );
     }
 }
+QRangePicker.propTypes = rangePickerPropType;
 export default connect(MapStateToProps)(QRangePicker);

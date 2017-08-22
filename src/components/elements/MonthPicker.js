@@ -9,7 +9,7 @@ import 'moment/locale/zh-cn';
 import {initFormData,initDynamicFormData,updateFormData,updateDynamicFormData} from '../../actions/formAction';
 import {IsNullorUndefined, FormItemLayout, MapStateToProps,getIsCascadeElement} from '../../utility/common';
 import _ from 'lodash';
-
+import {monthPickerPropType} from '../../utility/propTypes';
 const {MonthPicker} = DatePicker;
 const FormItem = Form.Item;
 
@@ -73,14 +73,14 @@ export class QMonthPicker extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -96,7 +96,7 @@ export class QMonthPicker extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -131,16 +131,16 @@ export class QMonthPicker extends React.Component {
         const {getFieldDecorator} = this.props.form;
         const key = this.getDynamicKey();
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}}  label={this.state.label}>
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}}  label={this.state.label}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules(),
+                    rules: this.Rules,
                     initialValue: this.state.defaultvalue === '' ? null : this.state.defaultvalue
                 })(<MonthPicker
                     placeholder={this.state.placeholder}
                     style={this.state.style}
                     popupStyle={this.state.popupstyle}
                     allowClear={true}
-                    disabled={this.getDisabled()}
+                    disabled={this.isDisabled}
                     format={IsNullorUndefined(this.state.format) ? 'YYYY-MM' : this.state.format}
                     onChange={(date, dateString) => this.handleOnChange(date, dateString)}
                 />)}
@@ -148,5 +148,5 @@ export class QMonthPicker extends React.Component {
         );
     }
 }
-
+QMonthPicker.propTypes = monthPickerPropType;
 export default connect(MapStateToProps)(QMonthPicker);

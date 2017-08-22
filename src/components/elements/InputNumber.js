@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Form, InputNumber } from 'antd';
 import _ from 'lodash';
-
+import {inputNumberPropType} from '../../utility/propTypes';
 import {initFormData,initDynamicFormData,updateFormData,updateDynamicFormData } from '../../actions/formAction';
 import {FormItemLayout,getIsCascadeElement} from '../../utility/common';
 const FormItem = Form.Item;
@@ -70,15 +70,15 @@ export class QInputNumber extends React.Component{
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
 
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -94,7 +94,7 @@ export class QInputNumber extends React.Component{
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -150,8 +150,8 @@ export class QInputNumber extends React.Component{
         const value = this.getValue(this.props.formData);
         const { getFieldDecorator } = this.props.form;
         let rules = [];
-        if(Array.isArray(this.getRules())) {
-            rules = this.getRules().map((data, index)=> {
+        if(Array.isArray(this.Rules)) {
+            rules = this.Rules.map((data, index)=> {
                 if (data.pattern != null) {
                     data.pattern=eval(data.pattern);
                 }
@@ -166,12 +166,12 @@ export class QInputNumber extends React.Component{
             initialValue: value,
         };
         return(
-            <FormItem {...FormItemLayout()}  style={{display:this.getHidden()}}   label={this.state.label} >
+            <FormItem {...FormItemLayout()}  style={{display:this.isHidden}}   label={this.state.label} >
                 <div>{getFieldDecorator(key, options )(
                     <InputNumber min={this.state.min}
                                  max={this.state.max}
                                  style={this.state.inputStyle}
-                                 disabled={this.getDisabled()}
+                                 disabled={this.isDisabled}
                                  onChange={(event) => this.handleOnChange(event)} />
                 )}{this.state.textAfter}</div>
              </FormItem>
@@ -179,5 +179,5 @@ export class QInputNumber extends React.Component{
         );
     }
 }
-
+QInputNumber.propTypes = inputNumberPropType;
 export default connect(mapStateToProps)(QInputNumber);

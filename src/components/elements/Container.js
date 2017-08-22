@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {connect} from 'react-redux';
 import {getElement, getDynamicElement} from '../factories/elementFactory';
 import {MapStateToProps} from '../../utility/common';
+import {containerProptypes} from '../../utility/propTypes';
 
 export class QContainer extends React.Component {
     constructor() {
@@ -42,5 +43,5 @@ export class QContainer extends React.Component {
         );
     }
 }
-
+QContainer.propTypes = containerProptypes;
 export default connect(MapStateToProps)(QContainer);

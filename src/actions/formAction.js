@@ -17,6 +17,7 @@ import {
     UPDATE_DYNAMIC_FORM_DATA,
     UPDATE_INIT_FORM_DATA,
 } from './formActionTypes';
+import _ from 'lodash';
 
 export function createNewForm() {
     return (dispatch) => {
@@ -55,11 +56,11 @@ export function removeDynamicElement(key) {
 export function loadFormDefinition(definitionSrc) {
     return function (dispatch) {
         get(definitionSrc).then(function (response) {
-            const formDefinition = response;
-            const formDictionaryPath=response.formDictionaryPath;
+            const formDefinition = response.data;
+            const formDictionaryPath=response.data.formDictionaryPath;
             if(formDictionaryPath) {
                 get(formDictionaryPath).then(function (resp) {
-                    const formDictionary = resp;
+                    const formDictionary = resp.data;
                     dispatch({type: LOAD_FORM_DICTIONARY_SUCCESSFUL, payload: formDictionary});
                     dispatch({type: LOAD_FORM_DEFINITION_SUCCESSFUL, payload: formDefinition});
                 });
@@ -71,11 +72,11 @@ export function loadFormDefinition(definitionSrc) {
         });
     };
 }
-
-export function loadFormData(dataSrc) {
+export function loadFormData(dataSrc,dataPath) {
     return function (dispatch) {
         get(dataSrc).then((response)=>{
-            dispatch({type: LOAD_FORM_DATA_SUCCESSFUL, payload: response.data});
+            let data=_.get(response.data,dataPath);
+            dispatch({type: LOAD_FORM_DATA_SUCCESSFUL, payload: data});
         }).catch((error)=>{
             console.log(error);
         });

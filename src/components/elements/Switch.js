@@ -72,14 +72,14 @@ export class QSwitch extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -95,7 +95,7 @@ export class QSwitch extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -120,9 +120,9 @@ export class QSwitch extends React.Component {
         const {getFieldDecorator} = this.props.form;
         const key = this.getDynamicKey();
         return (
-            <FormItem {...FormItemLayout()} label={this.state.label}  style={{display:this.getHidden()}}>
+            <FormItem {...FormItemLayout()} label={this.state.label}  style={{display:this.isHidden}}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules()
+                    rules: this.Rules
                 })(<Switch
                     checked={this.getValue(this.props.formData)}
                     checkedChildren={<Icon type='check'/>}

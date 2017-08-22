@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {initFormData,initDynamicFormData,updateDynamicFormData,updateFormData} from '../../actions/formAction';
 import {Form, Checkbox} from 'antd';
 import _ from 'lodash';
-
+import {checkBoxGroupPropType} from '../../utility/propTypes';
 import {FormItemLayout, MapStateToProps,getIsCascadeElement} from '../../utility/common';
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
@@ -48,14 +48,14 @@ export class QCheckBoxGroup extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -71,7 +71,7 @@ export class QCheckBoxGroup extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -128,15 +128,15 @@ export class QCheckBoxGroup extends React.Component {
         const key = this.getDynamicKey();
         const value = this.getValue(this.props.formData);
         return (
-            <FormItem {...FormItemLayout()}  style={{display:this.getHidden()}}  label={this.state.label}>
+            <FormItem {...FormItemLayout()}  style={{display:this.isHidden}}  label={this.state.label}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules(),
+                    rules: this.Rules,
                     initialValue: value
                 })(<CheckboxGroup
                         options={options}
                         defaultValue={this.getValue(this.props.formData)}
                         style={this.state.style}
-                        disabled={this.getDisabled()}
+                        disabled={this.isDisabled}
                         onChange={this.handleOnChange}
                 />)}
             </FormItem>
@@ -144,4 +144,5 @@ export class QCheckBoxGroup extends React.Component {
         );
     }
 }
+QCheckBoxGroup.propTypes = checkBoxGroupPropType;
 export default connect(MapStateToProps)(QCheckBoxGroup);

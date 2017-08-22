@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {connect} from 'react-redux';
 import {getDynamicElement} from '../factories/elementFactory';
 import {Button, Icon, Form} from 'antd';
-
+import {dynamicControlPropType} from '../../utility/propTypes';
 const FormItem = Form.Item;
 
 function mapStateToProps(store) {
@@ -38,7 +38,7 @@ export class DynamicControl extends React.Component {
             this.props.dispatch(initFormData(this.objectKey, value));
         } else {
             let item=_.get(this.props.formData, this.objectKey);
-            const uuid =_.isUndefined(item) ? 0 : _.isUndefined(item).length;
+            const uuid =_.isUndefined(item) ? 0 : item.length;
             this.setState({uuid:uuid});
             let dynamicElementNumber = [];
             for (let i = 1; i <= uuid; i++) {
@@ -87,7 +87,12 @@ export class DynamicControl extends React.Component {
         const dynamicElementNumber = getFieldValue(this.objectKey);
         return dynamicElementNumber.map((k, index) => {
             const template = _.cloneDeep(this.state.definition.template);
-            template.label = template.label + k;
+            let flag=this.state.definition.title.length>index;
+            if(flag){
+                template.label=this.state.definition.title[index];
+            }else{
+                template.label = template.label + k;
+            }
             return getDynamicElement(template, index, {objectName: this.objectKey, index: index});
         });
     }
@@ -110,4 +115,5 @@ export class DynamicControl extends React.Component {
             </div>);
     }
 }
+DynamicControl.propTypes = dynamicControlPropType;
 export default connect(mapStateToProps)(DynamicControl);

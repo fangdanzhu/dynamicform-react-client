@@ -10,7 +10,7 @@ import {
     resetForm,
     submittingForm,
     attachForm,
-    setFormStatus,
+    setFormStatus
 } from '../actions/formAction';
 
 import {getElement} from './factories/elementFactory';
@@ -40,11 +40,10 @@ export default class DynamicFormRender extends React.Component {
         this.props.dispatch(resetForm());
         const definitionSrc = this.props.formDefinitionSrc;
         const dataSrc = this.props.formDataSrc;
-        const dictPath=this.props.dictpath;
         this.props.dispatch(loadFormDefinition(definitionSrc));
         this.props.dispatch(attachForm(this.props.form));
         if (dataSrc) {
-            this.props.dispatch(loadFormData(dataSrc));
+            this.props.dispatch(loadFormData(dataSrc,this.props.dataPath));
         } else {
             this.props.dispatch(createNewForm());
         }
@@ -58,7 +57,7 @@ export default class DynamicFormRender extends React.Component {
                 _.get(this.props.formData, componentDefinition.path) : componentDefinition.hasOwnProperty('name') ?
                     _.get(this.props.formData, componentDefinition.name) : '';
         }
-        return getElement(componentDefinition, index, value);
+        return getElement(componentDefinition, index, value,this.props);
     }
 
     handleOnSubmit(event) {

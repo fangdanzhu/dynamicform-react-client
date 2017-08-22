@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import {initFormData,initDynamicFormData,updateDynamicFormData,updateFormData} from '../../actions/formAction';
 import {FormItemLayout,MapStateToProps,getIsCascadeElement} from '../../utility/common';
+import {cascadeSelectPropType} from '../../utility/propTypes';
 const FormItem = Form.Item;
 
 
@@ -56,7 +57,7 @@ export class CascadeSelect extends React.Component {
             return this.objectKey;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -72,7 +73,7 @@ export class CascadeSelect extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -99,8 +100,8 @@ export class CascadeSelect extends React.Component {
         let isCascadElement=getIsCascadeElement(nextProps.formData,this.props.formData,this.state.conditionMap);
         return currentValue !== nextValue || nextProps.isSubmitting || isCascadElement;
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
@@ -129,15 +130,16 @@ export class CascadeSelect extends React.Component {
         const key = this.getDynamicKey();
         const value = this.getValue(this.props.formData);
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}} label={this.state.label}>
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}} label={this.state.label}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules(),
+                    rules: this.Rules,
                     initialValue:value
                 })(
-                    <Cascader {...props} disabled={this.getDisabled()} />
+                    <Cascader {...props} disabled={this.isDisabled} />
                 )}
             </FormItem>
         );
     }
 }
+CascadeSelect.propTypes = cascadeSelectPropType;
 export default connect(MapStateToProps)(CascadeSelect);

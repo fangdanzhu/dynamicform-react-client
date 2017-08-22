@@ -5,6 +5,7 @@ import {Form, Input} from 'antd';
 import {FormItemLayout,getIsCascadeElement} from '../../utility/common';
 import {MapStateToProps} from '../../utility/common';
 import _ from 'lodash';
+import {textfieldPropTypes} from '../../utility/propTypes';
 
 const FormItem = Form.Item;
 
@@ -63,14 +64,14 @@ export class QTextField extends React.Component{
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -86,7 +87,7 @@ export class QTextField extends React.Component{
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -130,9 +131,9 @@ export class QTextField extends React.Component{
             });
         }
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}}  label={this.state.label}>
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}}  label={this.state.label}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules(),
+                    rules: this.Rules,
                     initialValue: value
                 })(
                     <Input
@@ -140,12 +141,14 @@ export class QTextField extends React.Component{
                         addonAfter={this.state.addonAfter}
                         type={this.state.inputType}
                         placeholder={this.state.placeholder}
-                        disabled={this.getDisabled()}
+                        disabled={this.isDisabled}
                         onChange={this.handleOnChange}/>
                 )}
             </FormItem>
         );
     }
 }
+
+QTextField.propTypes = textfieldPropTypes;
 
 export default connect(MapStateToProps)(QTextField);

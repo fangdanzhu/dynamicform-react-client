@@ -9,7 +9,7 @@ import 'moment/locale/zh-cn';
 import {initFormData,initDynamicFormData,updateFormData,updateDynamicFormData} from '../../actions/formAction';
 import {IsNullorUndefined, FormItemLayout, MapStateToProps,getIsCascadeElement} from '../../utility/common';
 import _ from 'lodash';
-
+import {datePickerPropType} from '../../utility/propTypes';
 const FormItem = Form.Item;
 
 export class QDatePicker extends React.Component {
@@ -72,14 +72,14 @@ export class QDatePicker extends React.Component {
             return this.objectKey;
         }
     }
-    getRules(){
-        if(this.getHidden()==='none'||this.getDisabled()){
+    get Rules(){
+        if(this.isHidden==='none'||this.isDisabled){
             return [];
         }else{
             return this.state.rules;
         }
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -95,7 +95,7 @@ export class QDatePicker extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -131,15 +131,15 @@ export class QDatePicker extends React.Component {
         const {getFieldDecorator} = this.props.form;
         const key = this.getDynamicKey();
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}} label={this.state.label}>
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}} label={this.state.label}>
                 {getFieldDecorator(key, {
-                    rules: this.getRules(),
+                    rules: this.Rules,
                     initialValue: this.state.defaultvalue === '' ? null : this.state.defaultvalue
                 })(<DatePicker
                     placeholder={this.state.placeholder}
                     style={this.state.style}
                     popupStyle={this.state.popupstyle}
-                    disabled={this.getDisabled()}
+                    disabled={this.isDisabled}
                     format={IsNullorUndefined(this.state.format) ? 'YYYY-MM-DD kk:mm:ss' : this.state.format}
                     showTime={this.state.showtime}
                     allowClear={true}
@@ -150,5 +150,5 @@ export class QDatePicker extends React.Component {
         );
     }
 }
-
+QDatePicker.propTypes = datePickerPropType;
 export default connect(MapStateToProps)(QDatePicker);

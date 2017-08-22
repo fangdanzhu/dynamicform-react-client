@@ -7,6 +7,7 @@ import {Button,message,Form} from 'antd';
 import {MapStateToProps,FormItemLayout} from '../../utility/common';
 import {post} from '../../utility/HttpHelper';
 import _ from 'lodash';
+import {validationButtonProptype} from '../../utility/propTypes';
 const FormItem = Form.Item;
 
 export class QVButton extends React.Component {
@@ -19,7 +20,7 @@ export class QVButton extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
         return false;
     }
-    getHidden() {
+    get isHidden() {
         let cascadeElement = this.state.conditionMap && Array.isArray(this.state.conditionMap);
         if (_.isUndefined(cascadeElement)  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
@@ -36,7 +37,7 @@ export class QVButton extends React.Component {
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -68,13 +69,13 @@ export class QVButton extends React.Component {
 
     render() {
         return (
-            <FormItem {...FormItemLayout()} style={{display: this.getHidden()}}>
+            <FormItem {...FormItemLayout()} style={{display: this.isHidden}}>
                 <Button size="default" onClick={(event) => this.handleOnClick(event)}
-                        disabled={this.getDisabled()}>{this.state.value}</Button>
+                        disabled={this.isDisabled}>{this.state.value}</Button>
             </FormItem>
 
         );
     }
 }
-
+QVButton.propTypes = validationButtonProptype;
 export default connect(MapStateToProps)(QVButton);

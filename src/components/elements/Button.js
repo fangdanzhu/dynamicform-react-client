@@ -5,6 +5,7 @@ import {MapStateToProps,FormItemLayout} from '../../utility/common';
 import _ from 'lodash';
 const FormItem = Form.Item;
 import {submittingForm,setFormStatus,updateInitFormData} from '../../actions/formAction';
+import {buttonPropType} from '../../utility/propTypes';
 
 export class QButton extends React.Component{
     constructor(){
@@ -15,7 +16,7 @@ export class QButton extends React.Component{
     componentWillMount(){
         this.state = this.props.definition;
     }
-    getHidden() {
+    get isHidden() {
         if (!this.state.conditionMap  || this.state.conditionMap.length == 0) {
             return this.state.hidden ? 'none' : '';
         } else {
@@ -31,7 +32,7 @@ export class QButton extends React.Component{
             return _.includes(ElementAttribute, 'none') ? 'none' : '';
         }
     }
-    getDisabled(){
+    get isDisabled(){
         if(!this.state.conditionMap|| this.state.conditionMap.length == 0) {
             return this.state.disabled;
         }else {
@@ -100,12 +101,13 @@ export class QButton extends React.Component{
 
     render() {
         return (
-            <FormItem {...FormItemLayout()} style={{display:this.getHidden()}} >
-                <Button type="primary" htmlType={this.state.action} disabled={this.getDisabled()}
+            <FormItem {...FormItemLayout()} style={{display:this.isHidden}} >
+                <Button type='primary' htmlType={this.state.action} disabled={this.isDisabled}
                         onClick={this.handleOnClick}>{this.state.label}
                 </Button>
             </FormItem>
         );
     }
 }
+QButton.propTypes = buttonPropType;
 export default connect(MapStateToProps)(QButton);
