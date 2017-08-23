@@ -3,4 +3,5 @@
 ## Overview of Dynamicform
 
 ### Installation
-##修改
+
+> $ yarn install
