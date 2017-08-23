@@ -5,3 +5,6 @@
 ### Installation
 
 > $ yarn install
+
+## License
+MIT
