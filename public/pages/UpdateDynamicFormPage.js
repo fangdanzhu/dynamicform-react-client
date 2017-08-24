@@ -10,16 +10,16 @@ export default class UpdateDynamicFormPage extends React.Component{
     onSuccess(){
 
     }
-
+//${this.props.match && this.props.match.params.name}
+    //${this.props.match && this.props.match.params.id}
     render(){
         return(
             <div>
                 <DynamicForm
-                    isUpdate={true}
                     formDefinitionSrc={`http://localhost:3000/api/getdefinition/${this.props.match && this.props.match.params.name}`}
                     formDataSrc={`http://localhost:3000/api/loadformdataById/${this.props.match && this.props.match.params.id}`}
-                    submitDataSrc={`http://localhost:3000/api/UpdateFormData`}
                     _id={this.props.match && this.props.match.params.id}
+                    dataPath='data'
                     onSuccess={this.onSuccess}
                     />
             </div>
