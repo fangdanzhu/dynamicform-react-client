@@ -8,10 +8,10 @@ export default class CreateDynamicFormPage extends React.Component{
     beforeSubmit(){
         console.log('回调函数beforeSubmit');
     }
-    onSuccess(){
+    onSuccess(response){
         console.log('回调函数onSuccess');
     }
-    onError(){
+    onError(error){
         console.log('回调函数onError')
     }
     onSubmit(){
@@ -23,6 +23,7 @@ export default class CreateDynamicFormPage extends React.Component{
                 isUpdate={false}
                 formDefinitionSrc={`http://localhost:3000/api/getdefinition/${this.props.match && this.props.match.params.name}`}
                 submitDataSrc={`http://localhost:3000/api/createformdata`}
+                dataPaht='data'
                 beforeSubmit={this.beforeSubmit}
                 onSuccess={this.onSuccess}
                 onError={this.onError}
