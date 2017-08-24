@@ -31,7 +31,7 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <span>
-              <a href={`#/demo/edit/${record.definitionName}/${record._id}`}>Edit</a>
+              <a href={`#/demo/edit/yekang/${record._id}`}>Edit</a>
             </span>
         ),
     }];
@@ -120,9 +120,9 @@ export default class DemoPage extends React.Component {
 
     getSelectData() {
         get(GetAllDefinition()).then((response)=>{
-            if(response&&_.isArray(response)){
+            if(response && response.data && _.isArray(response.data)){
                 this.setState({
-                    selectDataSource: response
+                    selectDataSource: response.data
                 });
             }else{
                 console.warn('no data or data structure error');
@@ -134,9 +134,9 @@ export default class DemoPage extends React.Component {
 
     getTableData() {
         get(LoadAllFormData()).then((response)=>{
-            if(response&&_.isArray(response)){
+            if(response && response.data && _.isArray(response.data)){
                 this.setState({
-                    tableData: response
+                    tableData: response.data
                 });
             }else{
                 console.warn('no data or data structure error');
