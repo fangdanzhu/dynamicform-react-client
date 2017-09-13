@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Form,Spin } from 'antd';
 import _ from 'lodash';
-import '../theme/theme.less';
 
 import {
     loadFormDefinition,
