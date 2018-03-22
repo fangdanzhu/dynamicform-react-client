@@ -48,7 +48,7 @@
 
 /* content */
 .content {
-   text-align: center;
+    text-align: center;
 }
 
 .content .content-limit {
@@ -64,20 +64,38 @@
     font-weight: 600;
     margin: 16px 0 10px;
     color: #313236;
+    width: 100%;
+    max-width: 100%;
 }
 
-.content .content-limit ul li {
-    margin: 16px 0 10px;
+.content .content-limit table {
+    margin: 12px 0;
+    color: #5c5d5e;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #f0f0f0;
 }
 
-.content .content-limit ul li a {
-    font-size: 20px;
-    color: #3084bb;
-    text-decoration: none;
-    font-weight: 600;
+.content .content-limit table thead {
+    border-bottom: 2px solid #f0f0f0;
 }
 
-.content .content-limit ul li a:hover {
-    text-decoration: underline;
+.content .content-limit table tr,td,th {
+    border: 1px solid #f0f0f0;
 }
+
+.content .content-limit table td,th {
+    padding: 8px;
+}
+
+.content .content-limit table th {
+    background: #f8fafc;
+}
+
+.content .content-limit p {
+    color: #5c5d5e;
+    margin: 6px 0 0;
+}
+
+
 
