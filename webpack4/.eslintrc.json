@@ -1,0 +1,19 @@
+{
+    "root": true,
+    "extends" :["eslint:recommended"],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "semi": 2
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    }
+}
